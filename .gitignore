@@ -1,0 +1,57 @@
+.vscode/
+*.pyc
+*.sqlite3
+*.xlsx
+*.env
+.env
+.env.*
+env/
+venv
+
+*.xml
+.idea/
+api/__pycache__/
+shop/__pycache__/
+# migrations/
+static/
+media/
+venv
+git_push.sh
+start_django_app.sh
+start_rq.sh
+.DS_Store
+# Ignore virtual environment
+venv/
+
+# Ignore database files
+db.sqlite3
+
+# Ignore local development settings
+*.env
+
+# Ignore compiled Python files
+__pycache__/
+
+# Ignore the static and media directories
+static/
+media/
+
+# Ignore log files
+*.log
+
+# Ignore generated migration files
+
+# Ignore the secret key configuration file
+secret_key.txt
+
+# Ignore environment-specific settings
+.env
+
+# Ignore the IDE project files (e.g., for VSCode, PyCharm, etc.)
+.vscode/
+.idea/
+*.code-workspace
+*.iml
+
+# Ignore macOS system files
+.DS_Store

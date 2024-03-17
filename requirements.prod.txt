@@ -1,0 +1,5 @@
+-r requirements.txt
+
+whitenoise
+gunicorn>=20.1.0,<20.2
+Brotli
