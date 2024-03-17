@@ -2,9 +2,6 @@
 *.pyc
 *.sqlite3
 *.xlsx
-*.env
-.env
-.env.*
 env/
 venv
 
