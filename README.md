@@ -6,34 +6,53 @@ This guide provides step-by-step instructions to set up the Django Rest Framewor
 
 1. [Prerequisites](#prerequisites)
 2. [Local Setup](#local-setup)
+3. [Docker Setup](#docker-setup)
 
 ## Prerequisites
+Since there are two ways you can setup this project, this section is divided into two for the local (non docker) setup and docker setup.
 
+### Local Setup
 Before you begin, make sure you have the following installed:
 
 - Python (3.10 or later)
-- pip (Python package manager)
+- Poetry or pip (Python package manager)
 - PostgreSQL
-- Google OAuth Client Key ([https://console.cloud.google.com/](https://console.cloud.google.com/))
-- Apple Developer Account and keys ([https://docs.allauth.org/en/latest/socialaccount/providers/apple.html](https://docs.allauth.org/en/latest/socialaccount/providers/apple.html))
+- Redis
+- (Optional) Google OAuth Client Key ([https://console.cloud.google.com/](https://console.cloud.google.com/))
+- (Optional) Apple Developer Account and keys ([https://docs.allauth.org/en/latest/socialaccount/providers/apple.html](https://docs.allauth.org/en/latest/socialaccount/providers/apple.html))
 
-## Local Setup
 
-1. Unzip the project and open a terminal console in the root of the unzipped project.
+### Docker Setup
+Before you begin, make sure you have the following installed:
 
-2. Create a virtual environment and activate it:
+- Docker
+- Docker-Compose
+- (Optional) Google OAuth Client Key ([https://console.cloud.google.com/](https://console.cloud.google.com/))
+- (Optional) Apple Developer Account and keys ([https://docs.allauth.org/en/latest/socialaccount/providers/apple.html](https://docs.allauth.org/en/latest/socialaccount/providers/apple.html))
 
+## Local Setup (Using a command line terminal)
+
+1. Clone the project.
+
+2. Enter the cloned projects directory
 ```bash
+cd drf-social-auth
+```
+
+3. Create a virtual environment, activate it and install dependencies using either pip or poetry:
+
+```bash title="using pip"
 python3 -m venv venv
 source venv/bin/activate  
 # On Windows: 
 # venv\Scripts\activate
+
+pip install -r requirements.dev.txt
 ```
 
-3. Install dependencies:
-
-```bash
-pip install -r requirements.dev.txt
+```bash title="using poetry"
+poetry install
+poetry shell
 ```
 
 4. Create a PostgreSQL database
@@ -63,8 +82,23 @@ python manage.py runserver
 
 11. Access the Django API at [8000](http://localhost:8000)
 
-12. Run tests by doing:
+### Running Tests
+
+12. (OPTIONAL) Run tests by doing:
 ```bash
-python manage.py accounts.test
+python manage.py test cinema.test
 ```
-NOTE: Please update the `id_token` and `access_tokens` with actual values gotten from google oauth playground and apple oauth playground appropriately whenever testing.
+### Starting Celery workers
+
+13. Start the worker using the following command in a new terminal.
+```bash
+celery -A core worker -l info
+```
+
+14. Start the beat by running the following command in a new terminal 
+```bash
+celery -A core beat -l info
+```
+
+NOTE: Please update the `id_token` and `access_tokens` with actual values gotten from google oauth playground and apple oauth playground appropriately whenever testing accounts app.
+

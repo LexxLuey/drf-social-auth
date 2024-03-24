@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 from datetime import timedelta
 from pathlib import Path
 
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,6 +57,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.apple",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "ninja",
+    "cinema",
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -248,3 +251,15 @@ SILKY_DYNAMIC_PROFILING = [
         "function": "SocialLoginView.process_login",
     }
 ]
+
+CELERY_BEAT_SCHEDULE = {  # scheduler configuration
+    "rank_up_schedule": {  # whatever the name you want
+        "task": "cinema.tasks.task_increase_ranking",  # name of task with path
+        "schedule": 300,  # 30 runs this task every 30 seconds
+    },
+}
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_TASK_EAGER_PROPAGATES = True
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

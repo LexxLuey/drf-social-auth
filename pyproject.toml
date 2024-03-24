@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "drf-social-auth"
+version = "0.1.0"
+description = "drf and django ninja REST API"
+authors = ["lexxluey <biggestluey@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = ">=3.2.4,<3.3"
+djangorestframework = ">=3.12.4,<3.13"
+django-cors-headers = "3.10.0"
+django-silk = ">=5.0.3,<=5.1"
+django-rq = ">=2.6.0,<2.7"
+psycopg2 = ">=2.9.1"
+psycopg2-binary = "^2.9.9"
+python-dotenv = ">=0.19.1,<0.20"
+django-redis = ">=5.3,<5.4"
+drf-spectacular = ">=0.26,<0.27"
+drf-yasg = ">=1.21,<1.22"
+djangorestframework-simplejwt = "5.2.2"
+django-allauth = "0.52.0"
+dj-rest-auth = {version = "4.0.0", extras = ["with-social"]}
+django-ninja = ">=1.1.0,<1.2"
+pillow = "^10.2.0"
+celery = {extras = ["redis"], version = "^5.3.6"}
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "7.22.0"
+coverage = "5.5"
+flake8 = "^7.0.0"
+colorama = "^0.4.6"
+black = "^24.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
