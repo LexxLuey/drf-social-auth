@@ -1,0 +1,71 @@
+version: "3"
+
+services:
+  web:
+    # Build the Docker image using the Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Set environment variables for the Django app
+    env_file:
+      - .env
+    # Mount the app directory to the container
+    volumes:
+      - ./:/app/
+    # Expose the Django development server on port 8000
+    ports:
+      - "8000:8000"
+    # Link the "db" service (PostgreSQL) and "redis" service to this container
+    depends_on:
+      - db
+      - redis
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+        celery -A core worker -l info
+        celery -A core beat -l info
+
+  db:
+    # Use the official PostgreSQL image
+    image: postgres
+    # Set environment variables for PostgreSQL
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    # Persist data in a named volume
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    # Use the official Redis image
+    image: redis
+    # Persist data in a named volume
+    volumes:
+      - redis_data:/data
+
+  celery:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A core worker -l info -B
+    volumes:
+      - .:/app
+    environment:
+      DEBUG: "True"
+      DJANGO_SETTINGS_MODULE: "core.settings"
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:
+  redis_data:
